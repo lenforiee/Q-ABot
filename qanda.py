@@ -187,7 +187,9 @@ async def read(ctx):
             mention = f"<@{quest['to']}>"
         else:
             for member in ctx.message.channel.guild.members:
-                if 0.7 <= SequenceMatcher(None, quest['to'], member.name).ratio():
+                ratio1 = SequenceMatcher(None, quest['to'], member.name).ratio()
+                ratio2 = SequenceMatcher(None, quest['to'], member.display_name).ratio()
+                if 0.7 <= ratio1 or 0.7 <= ratio2:
                     mention = f"<@{member.id}>"
                     break
             else:
@@ -223,7 +225,9 @@ async def getrandom(ctx):
         mention = f"<@{quest['to']}>"
     else:
         for member in ctx.message.channel.guild.members:
-            if 0.7 <= SequenceMatcher(None, quest['to'], member.name).ratio():
+            ratio1 = SequenceMatcher(None, quest['to'], member.name).ratio()
+            ratio2 = SequenceMatcher(None, quest['to'], member.display_name).ratio()
+            if 0.7 <= ratio1 or 0.7 <= ratio2:
                 mention = f"<@{member.id}>"
                 break
         else:
