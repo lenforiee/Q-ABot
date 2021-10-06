@@ -159,9 +159,14 @@ async def delete(ctx):
 
     if not args:
         return await ctx.author.send("Invalid syntax! !delete <identifier>")
+
+    if args[0] == "all" and ctx.author.id in hosts:
+        questions.clear()
+        _save_new_file("questions.json", questions)
+        return await ctx.author.send("Deleted all questions!")
     
     if args[0] in questions:
-        if questions[args[0]]['author'] == ctx.author.id:
+        if questions[args[0]]['author'] == ctx.author.id or ctx.author.id == config['bot_owner']:
             del questions[args[0]]
             _save_new_file("questions.json", questions)
             return await ctx.author.send("Deleted the question!")
@@ -210,7 +215,7 @@ async def getrandom(ctx):
         return await ctx.author.send("You may not use this command!")
 
     if not questions:
-        return await ctx.author.send("There is no questions at the moment!")
+        return await ctx.send("There is no questions at the moment!")
 
     quest = questions[random.choice(list(questions.keys()))]
 
